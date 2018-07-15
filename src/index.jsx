@@ -88,10 +88,17 @@ const manageSubscribersActions = (next) => {
 };
 
 const friendsActions = () => {
-  const { username } = store.getState().user;
+  const { user } = store.getState();
+  const { username } = user;
   store.dispatch(ActionCreators.subscribers(username));
   store.dispatch(ActionCreators.subscriptions(username));
   store.dispatch(ActionCreators.blockedByMe(username));
+  store.dispatch(ActionCreators.getAuthMethods());
+  store.dispatch(ActionCreators.getAllFacebookFriends()); // FIXME(dm): replace with multiple getFacebookFriends if possible
+};
+
+const settingsActions = () => {
+  store.dispatch(ActionCreators.getAuthMethods());
 };
 
 // needed to display mutual friends
@@ -131,7 +138,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} onEnter={enterStaticPage('Sign up')} />
         <Route path="restore" component={RestorePassword} />
         <Route path="reset" component={ResetPassword} />
-        <Route path="settings" component={Settings} onEnter={enterStaticPage('Settings')} />
+        <Route path="settings" component={Settings} onEnter={settingsActions} />
         <Route path="settings/archive" component={Archive} onEnter={enterStaticPage('Restore from FriendFeed.com Archives')} />
         <Route name="groupSettings" path="/:userName/settings" component={GroupSettings} {...generateRouteHooks(boundRouteActions('getUserInfo'))} />
         <Route name="discussions" path="filter/discussions" component={Discussions} {...generateRouteHooks(boundRouteActions('discussions'))} />

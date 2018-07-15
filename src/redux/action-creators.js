@@ -378,6 +378,43 @@ export function signIn(username, password) {
   };
 }
 
+export function signInWithToken(authToken) {
+  return {
+    type: ActionTypes.SIGN_IN_WITH_TOKEN,
+    payload: {
+      authToken,
+    },
+  };
+}
+
+// Just for updating `users.providers`. Pass the whole `providers` object.
+export function linkOauthAccount(authMethods) {
+  return {
+    type: ActionTypes.LINK_OAUTH_ACCOUNT,
+    payload: {
+      authMethods,
+    },
+  };
+}
+
+export function unlinkOauthAccount(provider, providerId) {
+  return {
+    type: ActionTypes.UNLINK_OAUTH_ACCOUNT,
+    apiRequest: Api.unlinkOauthAccount,
+    payload: {
+      provider,
+      providerId,
+    },
+  };
+}
+
+export function getAuthMethods() {
+  return {
+    type: ActionTypes.GET_AUTH_METHODS,
+    apiRequest: Api.getAuthMethods,
+  };
+}
+
 export function restorePassword(mail) {
   return {
     type: ActionTypes.RESTORE_PASSWORD,
@@ -808,5 +845,20 @@ export function sendInvite(groupId) {
   return {
     type: ActionTypes.SEND_INVITE,
     groupId,
+  };
+}
+
+export function getFacebookFriends(facebookId, accessToken = null) {
+  return {
+    type: ActionTypes.GET_FACEBOOK_FRIENDS,
+    apiRequest: Api.facebookFriends,
+    payload: { facebookId, accessToken },
+  };
+}
+
+export function getAllFacebookFriends() {
+  return {
+    type: ActionTypes.GET_ALL_FACEBOOK_FRIENDS,
+    apiRequest: Api.allFacebookFriends,
   };
 }
